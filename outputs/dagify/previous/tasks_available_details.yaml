@@ -1,62 +1,46 @@
 dag_type: plain_text
-description: Generates task categories, descriptions, filtering, recommendations,
-  skill mapping, availability checks, and then presents the final output to the user.
-name: tasks_available_with_output
+description: Identify tasks that can be completed
+name: tasks_available
 nodes:
   define_task_categories:
     agent: false
-    description: Identify up to five main task categories.
+    description: Identify categories of tasks
     name: define_task_categories
     nodes_depended_on: []
-    nodes_dependent_on:
-    - extract_task_descriptions
+    nodes_dependent_on: []
     prompt: List the main categories of tasks that can be completed (e.g., creative
       writing, data analysis, web development). Limit to 5 categories.
-  display_output:
-    agent: false
-    description: Show the user the final output of the workflow.
-    name: display_output
-    nodes_depended_on:
-    - query_task_availability
-    nodes_dependent_on: []
-    prompt: Present the final list of available tasks, including their categories,
-      descriptions, complexity levels, required skills, and recommendations in a clear,
-      user‑friendly format.
   extract_task_descriptions:
     agent: false
-    description: Gather detailed task descriptions for each category.
+    description: Gather detailed descriptions of tasks in each category
     name: extract_task_descriptions
     nodes_depended_on:
     - define_task_categories
-    nodes_dependent_on:
-    - filter_tasks_by_complexity
-    - map_tasks_to_skills
+    nodes_dependent_on: []
     prompt: Provide a list of tasks for each category, along with their brief descriptions.
       Limit each task description to 2-3 sentences.
   filter_tasks_by_complexity:
     agent: false
-    description: Classify tasks by complexity.
+    description: Identify tasks by level of complexity
     name: filter_tasks_by_complexity
     nodes_depended_on:
     - extract_task_descriptions
-    nodes_dependent_on:
-    - generate_task_recommendations
+    nodes_dependent_on: []
     prompt: For each task, categorize it by complexity level (e.g., easy, medium,
       hard). Provide a brief explanation for each level.
   generate_task_recommendations:
     agent: false
-    description: Offer personalized task recommendations.
+    description: Offer personalized task recommendations
     name: generate_task_recommendations
     nodes_depended_on:
     - filter_tasks_by_complexity
-    nodes_dependent_on:
-    - query_task_availability
+    nodes_dependent_on: []
     prompt: Based on the filtered tasks, provide 3-5 personalized task recommendations
       that align with the user's interests and skill levels. Provide a brief description
       for each recommendation.
   map_tasks_to_skills:
     agent: false
-    description: Identify required skills for each task.
+    description: Identify the skills required for each task
     name: map_tasks_to_skills
     nodes_depended_on:
     - extract_task_descriptions
@@ -65,11 +49,9 @@ nodes:
       language, experience with design software). Limit to 3-5 skills per task.
   query_task_availability:
     agent: false
-    description: Determine task availability for the user.
+    description: Check the availability of tasks based on user input
     name: query_task_availability
-    nodes_depended_on:
-    - generate_task_recommendations
-    nodes_dependent_on:
-    - display_output
+    nodes_depended_on: []
+    nodes_dependent_on: []
     prompt: Given the user's interests and skill levels, identify which tasks are
       currently available for completion. Limit to 5 tasks.
